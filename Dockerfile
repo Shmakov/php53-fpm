@@ -42,7 +42,6 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
   && mkdir /usr/include/freetype2/freetype \
   && ln -s /usr/include/freetype2/freetype.h /usr/include/freetype2/freetype/freetype.h \
-  && pecl install apc \
   && pecl install imagick-3.3.0 \
   && pecl install memcached-2.2.0 \
   && pecl install oauth-1.2.3 \
@@ -51,7 +50,6 @@ RUN apt-get update && apt-get install -y \
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/freetype2 --with-png-dir=/usr --with-jpeg-dir=/usr \
   && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
   && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
-  && docker-php-ext-enable apc \
   && docker-php-ext-enable imagick \
   && docker-php-ext-enable memcached \
   && docker-php-ext-enable oauth \
@@ -76,7 +74,6 @@ RUN apt-get update && apt-get install -y \
     pcntl \
     sockets \
   && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-#  && php -r "if (hash_file('SHA384', 'composer-setup.php') === '48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
   && php composer-setup.php --install-dir=/usr/local/bin --filename=composer --version=1.8.4 \
   && php -r "unlink('composer-setup.php');" \
   && chsh -s /bin/bash www-data && mkdir -p /var/www/.composer && chown -R www-data:www-data /var/www \
