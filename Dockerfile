@@ -83,7 +83,9 @@ RUN apt-get update && apt-get install -y \
   && apt-get -y autoremove \
   && rm -rf /var/lib/apt/lists/* && rm -rf && rm -rf /var/lib/cache/* && rm -rf /var/lib/log/* && rm -rf /tmp/*
 
-
+# Removing outdated Let's Encrypt certificate
+RUN sed -i 's/^mozilla\/DST_Root_CA_X3\.crt/!mozilla\/DST_Root_CA_X3\.crt/' /etc/ca-certificates.conf
+  && update-ca-certificates
 
 # install mhsendmail (to use with mailhog)
 RUN curl -Lo /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 && \
